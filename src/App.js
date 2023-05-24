@@ -46,9 +46,9 @@ const [notes, setNotes] = useState([]);
     const data = {
       name: form.get("name"),
       description: form.get("description"),
-      image: image.name,
+      image: image ? image.name : null,
     };
-    if (!!data.image)  await Storage.put(data.name, data.image);
+    if (data.image) await Storage.put(data.name, data.image);
     await API.graphql({
       query: createNoteMutation,
       variables: { input: data },
@@ -56,6 +56,7 @@ const [notes, setNotes] = useState([]);
     fetchNotes();
     event.target.reset();
   }
+  
 
   async function deleteNote({ id, name }) {
     const newNotes = notes.filter((note) => note.id !== id);
